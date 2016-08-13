@@ -1,0 +1,14 @@
+set daemon 5 # Check every 5s
+set alert telephony@dicemobilemail.com
+	
+	check process twad with matching dicetwad
+		depends on pbx_ta_check	 			
+		start program = "/etc/init.d/protel start"
+		stop program = "/etc/init.d/protel stop"
+                        if 30 restarts within 60 cycles then unmonitor
+                        if 30 restarts within 60 cycles then exec /scripts/avr_ta.sh
+	                if 6 restarts within 10 cycles then exec /scripts/avr_ta.sh
+
+	check file pbx_ta_check with path /drivers/pbx_ta
+                                if does not exist then unmonitor
+

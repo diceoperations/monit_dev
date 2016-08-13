@@ -1,0 +1,14 @@
+set daemon 5 # Check every 5s
+set alert telephony@dicemobilemail.com
+	
+	check process voice with matching dicevoice
+		depends on pbx_vc_check
+		start program = "/etc/init.d/voice start"
+		stop program = "/etc/init.d/voice stop"
+                        if 30 restarts within 60 cycles then exec /scripts/avr_vc.sh
+                        if 6 restarts within 10 cycles then exec /scripts/avr_vc.sh
+			if 30 restarts within 60 cycles then unmonitor
+                    
+        check file pbx_vc_check with path /drivers/pbx_vc
+                                if does not exist then unmonitor
+

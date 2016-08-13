@@ -1,0 +1,14 @@
+set daemon 5 # Check every 5s
+set alert telephony@dicemobilemail.com
+	
+	check process channelbank with matching dicecb
+		depends on pbx_cb_check
+		start program = "/etc/init.d/channelbank start"
+		stop program = "/etc/init.d/channelbank stop"
+			if 30 restarts within 60 cycles then unmonitor
+			if 30 restarts within 60 cycles then exec /scripts/avr_cb.sh
+                        if 6 restarts within 10 cycles then exec /scripts/avr_cb.sh
+
+        check file pbx_cb_check with path /drivers/pbx_cb
+                                if does not exist then unmonitor
+

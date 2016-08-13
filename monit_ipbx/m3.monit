@@ -1,0 +1,14 @@
+set daemon 5 # Check every 5s
+set alert telephony@dicemobilemail.com
+	
+	check process m3 with matching dicem3
+		depends on pbx_m3_check
+		start program = "/etc/init.d/m3 start"
+		stop program = "/etc/init.d/m3 stop"
+			if 30 restarts within 60 cycles then unmonitor
+			if 30 restarts within 60 cycles then exec /scripts/avr_m3.sh
+                        if 6 restarts within 10 cycles then exec /scripts/avr_m3.sh
+
+        check file pbx_m3_check with path /drivers/pbx_m3
+                                if does not exist then unmonitor
+
