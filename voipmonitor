@@ -1,9 +1,0 @@
-set daemon 15 # Check every 15s
-set alert telephony@dicemobilemail.com
-check process voipmonitor with pidfile /var/run/voipmonitorinitscript.pid
-group voipmonitor
-start program = "/etc/init.d/voipmonitor start"
-stop program = "/etc/init.d/voipmonitor stop"
-if totalmem >  500 MB for 5 cycles then exec /scripts/avr_voipmonitor.sh
-	repeat every 240 cycles
-if totalmem >  900 MB for 5 cycles then restart
