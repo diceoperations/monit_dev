@@ -1,0 +1,6 @@
+set daemon 15 # Check every 30s
+check process voipmonitor with pidfile /var/run/voipmonitorinitscript.pid
+start program = "/etc/init.d/voipmonitor start"
+stop program = "/etc/init.d/voipmonitor stop"
+if totalmem > 200 MB for 10 cycles then restart
+group voipmonitor
