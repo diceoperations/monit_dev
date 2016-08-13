@@ -4,4 +4,6 @@ check process voipmonitor with pidfile /var/run/voipmonitorinitscript.pid
 group voipmonitor
 start program = "/etc/init.d/voipmonitor start"
 stop program = "/etc/init.d/voipmonitor stop"
-if totalmem >  500 MB for 5 cycles then exec
+if totalmem >  500 MB for 5 cycles then exec /scripts/avr_voipmonitor.sh
+	repeat every 240 cycles
+if totalmem >  500 MB for 5 cycles then restart
